@@ -1,16 +1,15 @@
 # AopDemo
 IOC ,Aop <br>
 
-    Aop ： 主要使用到了AspectJ，编译时代码注入
+###  Aop ： 主要使用到了AspectJ，编译时代码注入<br>
 
-    使用流程：
+###  使用流程：<br>
 
-        1> 下载 http://www.eclipse.org/aspectj/downloads.php ,获取 aspectj-1.9.2.jar ,解压得到 aspectjrt.jar，并导入项目lib
+###   1> 下载 [http://www.eclipse.org/aspectj/downloads.php](http://www.eclipse.org/aspectj/downloads.php) ,获取 aspectj-1.9.2.jar ,解压得到 aspectjrt.jar，并导入项目lib<br>
 
-        2> 配置build.gradle , http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/
+###   2> 配置build.gradle , [http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/](http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)<br>
 
             主要是：
-
                 module:
                       mavenCentral()
 
@@ -23,54 +22,51 @@ IOC ,Aop <br>
                     import org.aspectj.tools.ajc.Main
 
 
-                final def log = project.logger
-                final def variants = project.android.applicationVariants
+                    final def log = project.logger
+                    final def variants = project.android.applicationVariants
 
-                variants.all { variant ->
-                    if (!variant.buildType.isDebuggable()) {
-                        log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
-                        return;
-                    }
+                    variants.all { variant ->
+                        if (!variant.buildType.isDebuggable()) {
+                            log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
+                            return;
+                        }
 
-                    JavaCompile javaCompile = variant.javaCompile
-                    javaCompile.doLast {
-                        String[] args = ["-showWeaveInfo",
-                                         "-1.8",
-                                         "-inpath", javaCompile.destinationDir.toString(),
-                                         "-aspectpath", javaCompile.classpath.asPath,
-                                         "-d", javaCompile.destinationDir.toString(),
-                                         "-classpath", javaCompile.classpath.asPath,
-                                         "-bootclasspath", project.android.bootClasspath.join(
-                                File.pathSeparator)]
+                        JavaCompile javaCompile = variant.javaCompile
+                        javaCompile.doLast {
+                            String[] args = ["-showWeaveInfo",
+                                             "-1.8",
+                                             "-inpath", javaCompile.destinationDir.toString(),
+                                             "-aspectpath", javaCompile.classpath.asPath,
+                                             "-d", javaCompile.destinationDir.toString(),
+                                             "-classpath", javaCompile.classpath.asPath,
+                                             "-bootclasspath", project.android.bootClasspath.join(
+                                    File.pathSeparator)]
 
-                        log.debug "ajc args: " + Arrays.toString(args)
+                            log.debug "ajc args: " + Arrays.toString(args)
 
-                        MessageHandler handler = new MessageHandler(true);
-                        new Main().run(args, handler);
+                            MessageHandler handler = new MessageHandler(true);
+                            new Main().run(args, handler);
 
-                        for (IMessage message : handler.getMessages(null, true)) {
-                            switch (message.getKind()) {
-                                case IMessage.ABORT:
-                                case IMessage.ERROR:
-                                case IMessage.FAIL:
-                                    log.error message.message, message.thrown
-                                    break;
-                                case IMessage.WARNING:
-                                    log.warn message.message, message.thrown
-                                    break;
-                                case IMessage.INFO:
-                                    log.info message.message, message.thrown
-                                    break;
-                                case IMessage.DEBUG:
-                                    log.debug message.message, message.thrown
-                                    break;
+                            for (IMessage message : handler.getMessages(null, true)) {
+                                switch (message.getKind()) {
+                                    case IMessage.ABORT:
+                                    case IMessage.ERROR:
+                                    case IMessage.FAIL:
+                                        log.error message.message, message.thrown
+                                        break;
+                                    case IMessage.WARNING:
+                                        log.warn message.message, message.thrown
+                                        break;
+                                    case IMessage.INFO:
+                                        log.info message.message, message.thrown
+                                        break;
+                                    case IMessage.DEBUG:
+                                        log.debug message.message, message.thrown
+                                        break;
+                                }
                             }
                         }
-                    }
-                }
-
-        3> 使用配置ioc
-
+###   3> 使用配置ioc<br>
 
             @Target(ElementType.METHOD)
             @Retention(RetentionPolicy.RUNTIME)

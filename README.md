@@ -5,9 +5,9 @@ IOC ,Aop <br>
 
 ####  使用流程：<br>
 
-######   1> 下载 [http://www.eclipse.org/aspectj/downloads.php](http://www.eclipse.org/aspectj/downloads.php) ,获取 aspectj-1.9.2.jar ,解压得到 aspectjrt.jar，并导入项目lib<br>
+#####   1> 下载 [http://www.eclipse.org/aspectj/downloads.php](http://www.eclipse.org/aspectj/downloads.php) ,获取 aspectj-1.9.2.jar ,解压得到 aspectjrt.jar，并导入项目lib<br>
 
-######   2> 配置build.gradle , [http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/](http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)<br>
+#####   2> 配置build.gradle , [http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/](http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)<br>
 
 module:
 
@@ -24,98 +24,98 @@ app：
     import org.aspectj.tools.ajc.Main
 
 
-final def log = project.logger
-final def variants = project.android.applicationVariants
+    final def log = project.logger
+    final def variants = project.android.applicationVariants
 
-variants.all { variant ->
-    if (!variant.buildType.isDebuggable()) {
-        log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
-        return;
-    }
-
-    JavaCompile javaCompile = variant.javaCompile
-    javaCompile.doLast {
-        String[] args = ["-showWeaveInfo",
-                         "-1.8",
-                         "-inpath", javaCompile.destinationDir.toString(),
-                         "-aspectpath", javaCompile.classpath.asPath,
-                         "-d", javaCompile.destinationDir.toString(),
-                         "-classpath", javaCompile.classpath.asPath,
-                         "-bootclasspath", project.android.bootClasspath.join(
-                File.pathSeparator)]
-
-        log.debug "ajc args: " + Arrays.toString(args)
-
-        MessageHandler handler = new MessageHandler(true);
-        new Main().run(args, handler);
-
-        for (IMessage message : handler.getMessages(null, true)) {
-            switch (message.getKind()) {
-                case IMessage.ABORT:
-                case IMessage.ERROR:
-                case IMessage.FAIL:
-                    log.error message.message, message.thrown
-                    break;
-                case IMessage.WARNING:
-                    log.warn message.message, message.thrown
-                    break;
-                case IMessage.INFO:
-                    log.info message.message, message.thrown
-                    break;
-                case IMessage.DEBUG:
-                    log.debug message.message, message.thrown
-                    break;
-            }
+    variants.all { variant ->
+        if (!variant.buildType.isDebuggable()) {
+            log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
+            return;
         }
-    }
-}
 
-######   3> 使用配置ioc<br>
+        JavaCompile javaCompile = variant.javaCompile
+        javaCompile.doLast {
+            String[] args = ["-showWeaveInfo",
+                             "-1.8",
+                             "-inpath", javaCompile.destinationDir.toString(),
+                             "-aspectpath", javaCompile.classpath.asPath,
+                             "-d", javaCompile.destinationDir.toString(),
+                             "-classpath", javaCompile.classpath.asPath,
+                             "-bootclasspath", project.android.bootClasspath.join(
+                    File.pathSeparator)]
 
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface CheckNet {
-}
+            log.debug "ajc args: " + Arrays.toString(args)
 
+            MessageHandler handler = new MessageHandler(true);
+            new Main().run(args, handler);
 
-@Aspect
-public class NetAspect {
-    /**
-     * 根据切点 切成什么样子
-     * * *(..)  可以处理所有的方法
-     */
-    @Pointcut("execution(@com.example.aopdemo.aspectj.annotation.CheckNet * *(..))")
-    public void checkNetBehavior() {
-
-    }
-
-    /**
-     * 切成什么样子之后，怎么去处理
-     */
-    @Around("checkNetBehavior()")
-    public Object checkNet(ProceedingJoinPoint joinPoint) throws Throwable {
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        if (signature != null) {
-            CheckNet checkNet = signature.getMethod().getAnnotation(CheckNet.class);
-            if (checkNet != null) {
-                Object obj = joinPoint.getThis();
-                Context context = NetWorkUtils.getContext(obj);
-                if (context != null) {
-                    if (!NetWorkUtils.isNetWorkAvailable(context)) {
-                        Toast.makeText(context, "请检测网络", Toast.LENGTH_LONG).show();
-                        return null;
-                    }
+            for (IMessage message : handler.getMessages(null, true)) {
+                switch (message.getKind()) {
+                    case IMessage.ABORT:
+                    case IMessage.ERROR:
+                    case IMessage.FAIL:
+                        log.error message.message, message.thrown
+                        break;
+                    case IMessage.WARNING:
+                        log.warn message.message, message.thrown
+                        break;
+                    case IMessage.INFO:
+                        log.info message.message, message.thrown
+                        break;
+                    case IMessage.DEBUG:
+                        log.debug message.message, message.thrown
+                        break;
                 }
             }
         }
-        return joinPoint.proceed();
     }
-}
+
+#####   3> 使用配置ioc<br>
+
+    @Target(ElementType.METHOD)
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface CheckNet {
+    }
 
 
-@CheckNet
-public void click(View view) {
-    //正常的业务逻辑
-    Toast.makeText(this, "网络已连接", Toast.LENGTH_LONG).show();
-}
+    @Aspect
+    public class NetAspect {
+        /**
+         * 根据切点 切成什么样子
+         * * *(..)  可以处理所有的方法
+         */
+        @Pointcut("execution(@com.example.aopdemo.aspectj.annotation.CheckNet * *(..))")
+        public void checkNetBehavior() {
+
+        }
+
+        /**
+         * 切成什么样子之后，怎么去处理
+         */
+        @Around("checkNetBehavior()")
+        public Object checkNet(ProceedingJoinPoint joinPoint) throws Throwable {
+            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+            if (signature != null) {
+                CheckNet checkNet = signature.getMethod().getAnnotation(CheckNet.class);
+                if (checkNet != null) {
+                    Object obj = joinPoint.getThis();
+                    Context context = NetWorkUtils.getContext(obj);
+                    if (context != null) {
+                        if (!NetWorkUtils.isNetWorkAvailable(context)) {
+                            Toast.makeText(context, "请检测网络", Toast.LENGTH_LONG).show();
+                            return null;
+                        }
+                    }
+                }
+            }
+            return joinPoint.proceed();
+        }
+    }
+
+
+    @CheckNet
+    public void click(View view) {
+        //正常的业务逻辑
+        Toast.makeText(this, "网络已连接", Toast.LENGTH_LONG).show();
+    }
 

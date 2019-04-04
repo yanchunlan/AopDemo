@@ -110,7 +110,7 @@ public class InjectManager {
 
     private static void injectLayout(Activity activity) {
         Class<?> clazz = activity.getClass();
-        Annotation[] contentView = clazz.getAnnotation(ContentView.class);
+        ContentView contentView = clazz.getAnnotation(ContentView.class);
         if (contentView != null) {
             int layoutId = contentView.value();
 

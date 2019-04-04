@@ -12,13 +12,16 @@
     <Button
             android:text="Button"
             android:layout_width="match_parent"
+            android:textAllCaps="false"
             android:layout_height="wrap_content" android:id="@+id/button"/>
     <Button
             android:text="Button"
+            android:textAllCaps="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/button1"/>
     <Button
             android:text="Button"
+            android:textAllCaps="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/button2"/>
 </LinearLayout>

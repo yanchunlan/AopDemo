@@ -72,11 +72,14 @@ app：
 
 #####   3> 使用配置ioc<br>
 
+CheckNet：
+
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
     public @interface CheckNet {
     }
 
+NetAspect：
 
     @Aspect
     public class NetAspect {
@@ -112,6 +115,7 @@ app：
         }
     }
 
+MainActivity:
 
     @CheckNet
     public void click(View view) {

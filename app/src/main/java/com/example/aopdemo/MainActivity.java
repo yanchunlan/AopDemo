@@ -64,10 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @BehaviorTrace(value = "摇一摇", type = 1)
     public void shake(View view) {
-        {
-            SystemClock.sleep(3000);
-            Log.i(TAG, " 摇到一个红包");
-
-        }
+        Toast.makeText(this, "摇到一个红包", Toast.LENGTH_SHORT).show();
     }
 }

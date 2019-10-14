@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.example.aopdemo.aspectj.annotation.BehaviorTrace;
 import com.example.aopdemo.aspectj.annotation.CheckNet;
+import com.example.aopdemo.autotrycatch.AutoTryCatch;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
@@ -24,14 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initView();
         initClearLogs();
-    }
-
-    private void initClearLogs() {
-        Log.i(TAG, "initClearLogs:  Log.i");
-        Log.d(TAG, "initClearLogs:  Log.d");
-        Log.w(TAG, "initClearLogs:  Log.w");
-        Log.v(TAG, "initClearLogs:  Log.v");
-        Log.e(TAG, "initClearLogs:  Log.e");
+        initAutoTryCatch();
     }
 
     private void initView() {
@@ -73,5 +69,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BehaviorTrace(value = "摇一摇", type = 1)
     public void shake(View view) {
         Toast.makeText(this, "摇到一个红包", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void initClearLogs() {
+        Log.i(TAG, "initClearLogs:  Log.i");
+        Log.d(TAG, "initClearLogs:  Log.d");
+        Log.w(TAG, "initClearLogs:  Log.w");
+        Log.v(TAG, "initClearLogs:  Log.v");
+        Log.e(TAG, "initClearLogs:  Log.e");
+    }
+
+    private void initAutoTryCatch() {
+        catchAllException();
+        catchNullPointerException();
+        catchNullPointerAndClassCastException();
+    }
+
+    @AutoTryCatch
+    public void catchAllException() {
+        int i = 1 / 0;
+    }
+
+    @AutoTryCatch(NullPointerException.class)
+    public void catchNullPointerException() {
+    }
+
+    @AutoTryCatch({NullPointerException.class,ArithmeticException.class})
+    public void catchNullPointerAndClassCastException() {
+        List list = null;
+        int size = list.size();
+        size = 1 / 0;
     }
 }

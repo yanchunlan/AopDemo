@@ -1,4 +1,4 @@
-package com.hibox.clearloglibrary;
+package com.example.clearloglibrary;
 
 import com.google.auto.service.AutoService;
 import com.sun.source.util.Trees;

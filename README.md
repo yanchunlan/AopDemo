@@ -126,3 +126,6 @@ MainActivity:
 ####   AST清除LOG
 clearloglibrary：利用AST扫描语句块，清除LOG信息
 
+####   Aop自动捕获异常
+clearloglibrary：利用AST扫描语句块，清除LOG信息
+

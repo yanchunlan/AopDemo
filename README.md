@@ -1,5 +1,5 @@
 # AopDemo
-IOC ,Aop <br>
+IOC ,Aop ,aop的AST清除log <br>
 
 ####  Aop ： 主要使用到了AspectJ，编译时代码注入<br>
 
@@ -122,4 +122,7 @@ MainActivity:
         //正常的业务逻辑
         Toast.makeText(this, "网络已连接", Toast.LENGTH_LONG).show();
     }
+
+####   AST清除LOG
+clearloglibrary：利用AST扫描语句块，清除LOG信息
 

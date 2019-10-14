@@ -2,7 +2,6 @@ package com.example.aopdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,6 +23,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        initClearLogs();
+    }
+
+    private void initClearLogs() {
+        Log.i(TAG, "initClearLogs:  Log.i");
+        Log.d(TAG, "initClearLogs:  Log.d");
+        Log.w(TAG, "initClearLogs:  Log.w");
+        Log.v(TAG, "initClearLogs:  Log.v");
+        Log.e(TAG, "initClearLogs:  Log.e");
     }
 
     private void initView() {

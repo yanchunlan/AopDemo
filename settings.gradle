@@ -1,1 +1,1 @@
-include ':app', ':Ioclibrary'
+include ':app', ':Ioclibrary', ':clearloglibrary'

@@ -1,13 +1,18 @@
 # AopDemo
 IOC ,Aop ,aop的AST清除log <br>
 
+
+####  原理图
+
+![](./pic/principle.jpg)
+
 ####  Aop ： 主要使用到了AspectJ，编译时代码注入<br>
 
 ####  使用流程：<br>
 
-#####   1> 下载 [http://www.eclipse.org/aspectj/downloads.php](http://www.eclipse.org/aspectj/downloads.php) ,获取 aspectj-1.9.2.jar ,解压得到 aspectjrt.jar，并导入项目lib<br>
+#####   1> 配置build.gradle , [http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/](http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)<br>
 
-#####   2> 配置build.gradle , [http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/](http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)<br>
+#####   2> 或者使用自定义的 aspectjlibrary（只需要依赖使用它就可以了）
 
 module:
 

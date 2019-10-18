@@ -1,1 +1,1 @@
-include ':app', ':Ioclibrary', ':clearloglibrary'
+include ':app', ':Ioclibrary', ':clearloglibrary', ':Aspectjlibrary'

@@ -3,6 +3,9 @@
 buildscript {
     ext.kotlin_version = '1.3.21'
     repositories {
+        maven {
+            url uri("aspectjlibrary/repo")
+        }
         google()
         jcenter()
         mavenCentral()
@@ -13,13 +16,22 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 
+        /*
+        // 1. 传统方式
         classpath 'org.aspectj:aspectjtools:1.8.9'
         classpath 'org.aspectj:aspectjweaver:1.8.9'
+       */
+
+        // 2. 自定义插件替换aspectj
+        classpath 'com.example.aspectj:aspectjplugin:1.0'
     }
 }
 
 allprojects {
     repositories {
+        maven {
+            url uri("aspectjlibrary/repo")
+        }
         google()
         jcenter()
         mavenCentral()

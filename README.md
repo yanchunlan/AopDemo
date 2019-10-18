@@ -12,8 +12,6 @@ IOC ,Aop ,aop的AST清除log <br>
 
 #####   1> 配置build.gradle , [http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/](http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)<br>
 
-#####   2> 或者使用自定义的 aspectjlibrary（只需要依赖使用它就可以了）
-
 module:
 
     mavenCentral()
@@ -74,6 +72,8 @@ app：
             }
         }
     }
+    
+#####   2> 或者使用自定义的 aspectjlibrary（只需要依赖使用它就可以了）
 
 #####   3> 使用配置ioc<br>
 
